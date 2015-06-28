@@ -44,6 +44,7 @@ from extremebysolr import ExtremeBySolrAnnotator
 from ner import NerAnnotator
 from nerlocations import NerLocationsAnnotator
 from nerother import NerOtherAnnotator
+from storytype import StorytypeAnnotator
 
 parser = argparse.ArgumentParser(
     description='''Runs the FACT language, summary, keywords, wordcount and wordcountclass metadata annotator web service''')
@@ -66,6 +67,9 @@ parser.add_argument(
     '-frog',
     help="FROG server and port (default: {})".format(DEFAULT_FROG),
     default=DEFAULT_FROG)
+parser.add_argument(
+    '-evaluation_ids',
+    help="File containing story IDs to ignore for evaluation (default: None)")
 
 
 class FactApplication(web.application):
@@ -83,13 +87,14 @@ if __name__ == "__main__":
         'keywords': KeywordsAnnotator(args.solr),
         'subgenre': SubgenreAnnotator(args.solr),
         'ner': NerAnnotator(args.frog),
-	'nerlocations': NerLocationsAnnotator(args.frog),
+	    'nerlocations': NerLocationsAnnotator(args.frog),
         'nerother': NerOtherAnnotator(args.frog),
         'summary': SummaryAnnotator(),
         'wordcount': WordcountAnnotator(),
         'wordcountclass': WordcountClassAnnotator(),
         'extreme': ExtremeAnnotator(),
         'extremebysolr': ExtremeBySolrAnnotator(args.solr),
+        'storytype': StorytypeAnnotator(args.solr, args.evaluation_ids),
     }
 
     class MainHandle:
@@ -108,7 +113,7 @@ if __name__ == "__main__":
                 return json.dumps(mapping[name].process(web.input()))
             else:
                 # unknown process
-                return "Error: " + web.internalerror()
+                return "Error: " + str(web.internalerror())
 
     urls = (
         '/(.*)', MainHandle
