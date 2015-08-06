@@ -7,7 +7,7 @@ from solr import SolrAnnotator
 Carries out storytype detection by looking at the most similar documents
 The top 25 similar documents are retrieved from the SOLR index.
 """
-
+MAX_NUM_RESULTS_STORYTYPES = 5
 
 class StorytypeAnnotator(SolrAnnotator):
     def __init__(self, solr_url, evaluation_url=None):
@@ -60,6 +60,6 @@ class StorytypeAnnotator(SolrAnnotator):
                 "status": "OK",
                 "message": "Automatically detected storytype",
                 "annotation": {
-                    "storytypes": results_top_ranked,
+                    "storytypes": results_top_ranked[:MAX_NUM_RESULTS_STORYTYPES],
                 }
             }
