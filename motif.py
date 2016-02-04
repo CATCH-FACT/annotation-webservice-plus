@@ -33,8 +33,8 @@ class MotifAnnotator(SolrAnnotator):
         motif_count = defaultdict(int)
 
         for doc in docs:
-            if doc['identifier'] in self.ignore:
-                continue
+#            if doc['identifier'] in self.ignore:
+#                continue
             for motif in doc.get('motif', []):
                 motif_count[motif] += 1
                 if motif not in processed:

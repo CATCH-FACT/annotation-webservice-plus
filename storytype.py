@@ -33,8 +33,8 @@ class StorytypeAnnotator(SolrAnnotator):
         storytypes_count = defaultdict(int)
 
         for doc in docs:
-            if doc['identifier'] in self.ignore:
-                continue
+#            if doc['identifier'] in self.ignore:
+#                continue
             for storytype in doc.get('subject', []):
                 storytypes_count[storytype] += 1
                 if storytype not in processed:
