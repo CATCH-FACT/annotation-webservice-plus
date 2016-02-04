@@ -8,10 +8,10 @@ Defines constants
 DEFAULT_PORT = 24681
 
 # SOLR_URL used for searching
-DEFAULT_SOLR_URL = "http://localhost:8080/solr/collection2"
+DEFAULT_SOLR_URL = "http://localhost:8080/solr/omeka"
 
 # field which contains the plain document text in SOLR
-FIELD_TEXT = "text"
+FIELD_TEXT = "main_text"
 
 # server and port running the frog web service
 DEFAULT_FROG = "localhost:12345"

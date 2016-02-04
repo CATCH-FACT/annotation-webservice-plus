@@ -8,6 +8,10 @@ REST web service for doing automatic
 - keyword extraction
 - subgenre classification
 - named entity recognition
+- named entity location recognition
+- named entity other recognition
+- storytype recognition
+- motif recognition
 
 By default, starts a webservice at port 24681 (can be set with the -p switch)
 
@@ -17,6 +21,10 @@ Expects posting a document to be annotated to one the following urls
 /keywords
 /subgenre
 /ner
+/nerlocations
+/nerother
+/storytype
+/motif
 
 expects the fields of the document to be posted:
     text: Full-text of the document (required),
@@ -45,9 +53,10 @@ from ner import NerAnnotator
 from nerlocations import NerLocationsAnnotator
 from nerother import NerOtherAnnotator
 from storytype import StorytypeAnnotator
+from motif import MotifAnnotator
 
 parser = argparse.ArgumentParser(
-    description='''Runs the FACT language, summary, keywords, wordcount and wordcountclass metadata annotator web service''')
+    description='''Runs the FACT language, summary, keywords, storytype, motif, wordcount and wordcountclass metadata annotator web service''')
 parser.add_argument(
     '--debug',
     help="Sets output from the webservice to debug mode",
@@ -95,6 +104,7 @@ if __name__ == "__main__":
         'extreme': ExtremeAnnotator(),
         'extremebysolr': ExtremeBySolrAnnotator(args.solr),
         'storytype': StorytypeAnnotator(args.solr, args.evaluation_ids),
+        'motif': MotifAnnotator(args.solr, args.evaluation_ids),
     }
 
     class MainHandle:
